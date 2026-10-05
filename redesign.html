@@ -1,52 +1,359 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f6f2"><meta name="description" content="共识哨兵：检查生成式搜索回答中的排名、评价与共识依据。"><title>共识哨兵｜生成式搜索内容核验</title>
-<style>
-:root{--bg:#f5f6f2;--paper:#fff;--ink:#182b3d;--muted:#718092;--line:#e3e8e7;--blue:#2858d6;--blue2:#eaf0ff;--teal:#1d9a8a;--amber:#b77a25;--red:#bd5149;--navy:#132b40;--radius:14px;--shadow:0 12px 34px #142b4010}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 "Microsoft YaHei","PingFang SC",system-ui,sans-serif}button,textarea{font:inherit}button{cursor:pointer}.frame{max-width:1240px;padding:0 34px;margin:auto}.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:11px;font-size:17px;font-weight:800;letter-spacing:.02em}.brandmark{width:29px;height:29px;border-radius:9px 9px 9px 3px;background:var(--blue);position:relative;transform:rotate(-8deg)}.brandmark:before,.brandmark:after{content:"";position:absolute;border-radius:50%;background:white}.brandmark:before{width:5px;height:5px;left:7px;top:8px;box-shadow:9px 0 white}.brandmark:after{width:13px;height:2px;left:8px;top:18px}.nav{display:flex;gap:5px}.nav button{border:0;background:transparent;color:#607083;padding:9px 13px;border-radius:8px;font-size:13px}.nav button:hover,.nav button.active{background:#e9edf2;color:var(--ink)}.topright{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}.statusdot{width:7px;height:7px;border-radius:50%;background:var(--teal)}.view{display:none}.view.active{display:block;animation:appear .24s ease}@keyframes appear{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:none}}.homehero{padding:70px 0 54px;display:grid;grid-template-columns:1.08fr .92fr;gap:65px;align-items:center}.kicker{font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:var(--blue);font-weight:800}.homehero h1{font:700 clamp(42px,5.3vw,69px)/1.14 "Noto Serif SC","Songti SC","STSong",serif;letter-spacing:-.055em;margin:18px 0 20px}.homehero h1 span{color:var(--blue)}.intro{max-width:590px;color:#607083;line-height:1.95;font-size:16px}.hero-actions{display:flex;gap:11px;margin-top:27px}.btn{border:1px solid transparent;padding:11px 16px;border-radius:8px;font-weight:700;font-size:13px}.btn.primary{background:var(--blue);color:white;box-shadow:0 7px 18px #2858d629}.btn.secondary{background:white;border-color:var(--line);color:var(--ink)}.btn.text{background:transparent;color:var(--blue);padding:8px}.hero-art{height:325px;border-radius:20px;background:var(--navy);position:relative;overflow:hidden;box-shadow:var(--shadow)}.hero-art:before{content:"";position:absolute;width:245px;height:245px;border:1px solid #b2d4ff42;border-radius:50%;left:50%;top:47%;transform:translate(-50%,-50%);box-shadow:0 0 0 43px #92c9ff0b,0 0 0 88px #92c9ff08}.orbit{position:absolute;inset:0;display:grid;place-items:center}.orbit:before{content:"";width:150px;height:150px;border:1px dashed #71b3fb88;border-radius:50%;animation:turn 36s linear infinite}@keyframes turn{to{transform:rotate(360deg)}}.core{position:absolute;width:45px;height:45px;background:#5fd0c2;border-radius:14px;transform:rotate(45deg);box-shadow:0 0 38px #53c8c7aa}.core:after{content:"";position:absolute;inset:14px;background:#143b58;border-radius:50%}.sat{position:absolute;width:13px;height:13px;border-radius:50%;background:#f4c36d;box-shadow:0 0 18px #f4c36d}.s1{left:22%;top:24%}.s2{right:19%;top:27%;background:#eb8491;box-shadow:0 0 18px #eb8491}.s3{left:25%;bottom:23%;background:#7fc9a7;box-shadow:0 0 18px #7fc9a7}.s4{right:24%;bottom:20%}.art-copy{position:absolute;left:25px;bottom:20px;color:#eaf3ff;font-size:13px;font-weight:700}.art-copy small{display:block;color:#9eb2c6;font-weight:400;margin-top:3px}.section{padding:18px 0 46px}.section-head{display:flex;justify-content:space-between;align-items:end;margin:0 0 17px}.section-head h2{font:700 28px/1.25 "Noto Serif SC","Songti SC",serif;margin:0;letter-spacing:-.035em}.section-head p{font-size:12px;color:var(--muted);margin:0}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.feature,.case-card,.paper{background:var(--paper2,var(--paper));border:1px solid var(--line);border-radius:var(--radius);padding:20px}.feature{background:#fff}.feature-index{font:600 12px/1 ui-monospace,monospace;color:var(--blue);background:var(--blue2);padding:8px;border-radius:8px;display:inline-block}.feature h3{font-size:15px;margin:17px 0 6px}.feature p{font-size:13px;color:var(--muted);margin:0;line-height:1.75}.home-sample{margin-top:15px;padding:22px 24px;background:#edf1ec;border-radius:var(--radius);display:flex;justify-content:space-between;align-items:center;gap:20px}.home-sample strong{font:700 18px "Noto Serif SC","Songti SC",serif}.home-sample p{margin:5px 0 0;color:#68798a;font-size:13px}.page-title{padding:43px 0 24px;display:flex;justify-content:space-between;align-items:end}.page-title h1{font:700 35px/1.25 "Noto Serif SC","Songti SC",serif;letter-spacing:-.04em;margin:7px 0}.page-title p{color:var(--muted);font-size:13px;margin:0}.workgrid{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(310px,.87fr);gap:17px}.paper{background:var(--paper2,var(--paper));background:#fff;box-shadow:var(--shadow);padding:22px}.form-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.form-head b{font-size:14px}.examples{display:flex;gap:7px;flex-wrap:wrap}.chip{border:1px solid #dce3e5;background:#f8faf9;color:#516579;padding:6px 10px;border-radius:99px;font-size:11px}.chip.active{color:var(--blue);border-color:#bfd0f6;background:#f0f4ff}.editor{width:100%;height:345px;resize:vertical;padding:16px;border:1px solid #d9e1e4;border-radius:10px;background:#fcfdfb;outline:0;color:#263b4d;font:13px/1.85 "Microsoft YaHei",sans-serif}.editor:focus{border-color:#88a8ed;box-shadow:0 0 0 3px #e6edff}.form-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:12px}.form-foot small{font-size:11px;color:var(--muted);line-height:1.6}.side-help{background:#f0f3ef;border-radius:10px;padding:15px;margin-top:14px}.side-help strong{font-size:12px}.side-help p{font-size:11px;color:var(--muted);line-height:1.7;margin:5px 0 0}.report{display:none;margin-top:18px}.report.show{display:block;animation:appear .3s ease}.report-head{display:flex;justify-content:space-between;gap:15px;align-items:start}.report-head h3{font-size:19px;margin:0 0 5px}.report-head p{font-size:12px;color:var(--muted);margin:0;line-height:1.7}.grade{border-radius:99px;padding:6px 10px;background:#fff2dc;color:#8b5b12;font-size:11px;font-weight:800;white-space:nowrap}.grade.low{background:#e7f5ed;color:#25734e}.report-score{display:grid;grid-template-columns:115px 1fr;gap:16px;align-items:center;margin:20px 0;padding:17px;background:#f6f8fb;border-radius:11px}.score{font-size:44px;font-weight:800;line-height:1;color:var(--blue)}.score small{font-size:12px;color:var(--muted);font-weight:500}.scorebar{height:7px;background:#e3e8ed;border-radius:9px;overflow:hidden;margin:9px 0}.scorebar i{display:block;height:100%;width:var(--score);background:linear-gradient(90deg,#38b69c,#e4ae50,#cd5f51)}.score-explain{font-size:11px;color:var(--muted)}.signals{display:grid;gap:11px}.signal{display:grid;grid-template-columns:1fr 40px;gap:5px 12px;align-items:center}.signal span{font-size:12px}.signal b{text-align:right;font-size:12px}.signal .track{grid-column:1/3;height:4px;background:#e9edef;border-radius:8px;overflow:hidden}.signal .track i{display:block;height:100%;width:var(--v);background:#37a69b}.signal.high .track i{background:#df9b45}.signal strong{font-size:10px;color:var(--muted);font-weight:500;margin-left:5px}.findings{margin-top:18px;border-top:1px solid var(--line);padding-top:15px}.findings h4{margin:0 0 9px;font-size:13px}.finding{display:grid;grid-template-columns:23px 1fr;gap:8px;padding:8px 0}.finding i{font-style:normal;font-size:10px;color:var(--blue);background:#edf2ff;width:21px;height:21px;display:grid;place-items:center;border-radius:6px}.finding b{font-size:11px}.finding p{font-size:11px;color:var(--muted);line-height:1.6;margin:3px 0 0}.case-toolbar{display:flex;gap:8px;flex-wrap:wrap}.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.case-card{background:white;display:flex;flex-direction:column;min-height:265px}.case-type{font-size:10px;color:var(--blue);letter-spacing:.07em;font-weight:800}.case-card h3{font:700 18px "Noto Serif SC","Songti SC",serif;margin:14px 0 8px}.case-card p{font-size:12px;color:var(--muted);line-height:1.8;margin:0 0 15px;flex:1}.case-meta{font-size:10px;color:#8995a0;padding-top:10px;border-top:1px solid var(--line);margin-bottom:8px}.case-card button{align-self:start}.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.method-item{background:#fff;border:1px solid var(--line);padding:20px;border-radius:var(--radius)}.method-item h3{font-size:14px;margin:0 0 8px}.method-item p{font-size:12px;color:var(--muted);line-height:1.8;margin:0}.flow{margin:18px 0;background:var(--navy);color:white;border-radius:var(--radius);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:10px}.step{text-align:center;flex:1}.step b{display:block;font-size:12px}.step small{font-size:10px;color:#aec0d1}.arrow{color:#69c6bf}.legal-note{font-size:11px;line-height:1.8;background:#fff4e4;color:#795c2f;border-radius:10px;padding:14px 16px;margin-top:15px}.foot{padding:24px 0 30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:38px}.toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:#182d42;color:white;border-radius:8px;padding:10px 15px;font-size:12px;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:850px){.frame{padding:0 18px}.homehero{grid-template-columns:1fr;padding:50px 0 42px;gap:25px}.hero-art{height:270px}.workgrid{grid-template-columns:1fr}.case-grid,.three{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:7px}.nav button{padding:8px}.topright{display:none}.method-grid{grid-template-columns:1fr}.flow{flex-wrap:wrap}.step{min-width:38%}}@media(max-width:520px){.frame{padding:0 14px}.topbar{height:64px}.nav button{font-size:11px;padding:7px}.brand{font-size:15px}.homehero h1{font-size:43px}.home-sample,.form-foot,.foot{align-items:flex-start;flex-direction:column}.page-title{padding-top:30px}.page-title h1{font-size:30px}.editor{height:310px}.paper{padding:16px}.report-score{grid-template-columns:85px 1fr}.score{font-size:37px}}
-</style><style>.btn,.tab{font-family:inherit}.btn{font-size:13px}.tab{font-size:11px}</style></head><body>
-<div class="frame"><header class="topbar"><div class="brand"><i class="brandmark"></i>共识哨兵</div><nav class="nav" aria-label="主导航"><button data-view="home" class="active">概览</button><button data-view="workspace">内容检测</button><button data-view="cases">案例库</button><button data-view="guide">研判说明</button></nav><div class="topright"><i class="statusdot"></i>本地演示环境</div></header>
-<main>
-<section class="view active" id="home"><div class="homehero"><div><div class="kicker">GENERATIVE SEARCH · CONTENT REVIEW</div><h1>答案写得越像<br>真的，越要看<span>出处</span></h1><p class="intro">有些生成式回答会把排名、口碑和“大家都推荐”写得有条有理。共识哨兵帮助你逐条查看：哪些是可核验事实，哪些只是强结论，哪些说法在不同文本里反复出现。</p><div class="hero-actions"><button class="btn primary" data-go="workspace">开始检测　↗</button><button class="btn secondary" data-go="cases">先看案例</button></div></div><div class="hero-art"><div class="orbit"></div><i class="core"></i><i class="sat s1"></i><i class="sat s2"></i><i class="sat s3"></i><i class="sat s4"></i><div class="art-copy">一句结论，追到它的依据<small>排名 · 评价 · 共识表达</small></div></div></div><div class="section"><div class="section-head"><h2>它会看哪些线索</h2><p>从文本里找提示，给出下一步核验方向</p></div><div class="three"><article class="feature"><span class="feature-index">01 / 表达重复</span><h3>不同说法，是否像同一套模板</h3><p>比较短语、句式和内容组织方式，留意多段文本是否反复采用相同的推荐路径。</p></article><article class="feature"><span class="feature-index">02 / 结论强度</span><h3>排名和口碑，有没有明确出处</h3><p>标出“排名第一”“公认首选”“大家都说”等主张，查看是否交代评价主体、范围与时间。</p></article><article class="feature"><span class="feature-index">03 / 证据细节</span><h3>读起来具体，能不能真正复核</h3><p>检查回答有没有引用、数据口径、可定位信息或明确来源，区分细节丰富和证据充分。</p></article></div><div class="home-sample"><div><strong>一份回答，也可以拆开看</strong><p>排名依据、评价来源、重复话术和缺失信息会分别展示。</p></div><button class="btn secondary" data-go="workspace">打开检测工作台</button></div></div></section>
-<section class="view" id="workspace"><div class="page-title"><div><div class="kicker">CONTENT REVIEW</div><h1>内容检测</h1><p>粘贴一段生成式回答，或放入多条相关文本进行对照。</p></div><button class="btn text" data-go="guide">检测说明　→</button></div><div class="workgrid"><div class="paper"><div class="form-head"><b>待分析内容</b><div class="examples"><button class="chip active" data-sample="restaurant">餐饮榜单推荐</button><button class="chip" data-sample="phone">产品测评长文</button><button class="chip" data-sample="answer">AI 搜索摘要</button></div></div><textarea class="editor" id="input" placeholder="粘贴生成式搜索回答、评价合集或产品推荐文案……"></textarea><div class="form-foot"><small>建议保留段落、编号和引用格式。分析在当前页面完成，内容不会上传。</small><button class="btn primary" id="analyze">查看风险线索　↗</button></div><div class="side-help"><strong>更适合分析什么？</strong><p>多条同主题评价、带“排名/推荐”结论的长回答、引用来源不清的 AI 搜索摘要。单条短句能提供的比较信息较少。</p></div></div><aside class="paper"><div class="report-head"><div><h3 id="report-title">等待分析</h3><p id="report-desc">选择一个示例，或粘贴内容后开始检测。</p></div><span class="grade" id="grade">尚无结果</span></div><div class="report-score"><div class="score"><span id="score">—</span><small>/100</small></div><div><b style="font-size:12px">核验优先级</b><div class="scorebar"><i id="scorebar" style="--score:0%"></i></div><div class="score-explain">分数表示文本线索集中程度，不代表真假判断。</div></div></div><div class="signals" id="signals"><div class="signal"><span>表达相似度</span><b>—</b><div class="track"><i style="--v:0%"></i></div></div><div class="signal"><span>排名与背书表达</span><b>—</b><div class="track"><i style="--v:0%"></i></div></div><div class="signal"><span>强结论表达</span><b>—</b><div class="track"><i style="--v:0%"></i></div></div><div class="signal"><span>来源与证据缺口</span><b>—</b><div class="track"><i style="--v:0%"></i></div></div></div><div class="findings"><h4>建议优先核对</h4><div id="findings"><p style="font-size:11px;color:var(--muted)">完成分析后，这里会列出具体触发线索与缺失信息。</p></div></div></aside></div></section>
-<section class="view" id="cases"><div class="page-title"><div><div class="kicker">EXAMPLE LIBRARY</div><h1>案例库</h1><p>以下均为匿名编写的演示文本，用于展示常见表达样式。</p></div></div><div class="case-grid"><article class="case-card"><span class="case-type">01 · 本地生活推荐</span><h3>把三家店排成“闭眼选”榜单</h3><p>“覆盖正宗风味、商场氛围和街头风格，按位置和喜好选。”随后逐家列出亮点、地址、必点菜，再用“想吃地道风味选 A、爱拍照选 B”收尾。</p><div class="case-meta">观察点：榜单来源、评价样本、地址与推荐依据</div><button class="btn text" data-load="restaurant">载入检测　↗</button></article><article class="case-card"><span class="case-type">02 · 消费电子测评</span><h3>一篇很完整的手机购买建议</h3><p>回答按手感、屏幕、续航、通信、拍照、短板和版本选择展开，还给出价格、帧率、充电时间等具体数字。</p><div class="case-meta">观察点：参数出处、实测条件、数据时效和体验来源</div><button class="btn text" data-load="phone">载入检测　↗</button></article><article class="case-card"><span class="case-type">03 · 生成式搜索摘要</span><h3>“多方评价”却没有具体引用</h3><p>摘要称某品牌排名领先、用户普遍推荐、测评一致认可，但没有列出平台、测评机构、样本数量或原始链接。</p><div class="case-meta">观察点：群体背书能否追溯到具体来源</div><button class="btn text" data-load="answer">载入检测　↗</button></article></div><div class="legal-note">案例中的机构、品牌、评价和数字为演示编写，不对应真实商家或产品。出现相似话术或缺少引用，只能提示进一步核验，不能单独证明内容虚假或存在操纵。</div></section>
-<section class="view" id="guide"><div class="page-title"><div><div class="kicker">HOW TO READ A REPORT</div><h1>研判说明</h1><p>报告展示可见文本线索，以及适合继续查证的问题。</p></div></div><div class="flow"><div class="step"><b>读取文本</b><small>段落与标题</small></div><span class="arrow">→</span><div class="step"><b>比较表达</b><small>短语与组织方式</small></div><span class="arrow">→</span><div class="step"><b>标出主张</b><small>排名与绝对结论</small></div><span class="arrow">→</span><div class="step"><b>提示核验</b><small>来源与证据细节</small></div></div><div class="method-grid"><article class="method-item"><h3>表达相似度</h3><p>把文本拆成片段，比较重复短语和句子组织方式。多条文本越相近，越值得检查是否存在共同模板或转载链路；相似本身不能说明是谁生成或传播。</p></article><article class="method-item"><h3>排名与群体背书</h3><p>标记“排名第一”“用户都推荐”“多方一致认为”等说法。关键问题是：谁做的排名？评价来自哪个平台？统计范围和时间是什么？</p></article><article class="method-item"><h3>强结论与可核验细节</h3><p>把“唯一、最好、不会错”等结论与具体依据放在一起看。数字、地址或参数看似具体，仍需核对来源、日期、适用范围和测量条件。</p></article><article class="method-item"><h3>风险分数怎么读</h3><p>分数汇总几类可见文本信号，用于安排人工核验顺序。它不代表真实性概率，不识别真实作者，也不连接平台后台数据。</p></article></div><div class="legal-note">当前页面是前端演示原型，采用可读的规则与文本相似比较，不调用外部模型或互联网检索。因此它能指出“哪里需要核对”，不能替你验证网页、商品参数或评价是否真实。</div></section>
-</main><footer class="foot"><span>共识哨兵　·　生成式搜索内容核验原型</span><span>为课程研究与演示而设计</span></footer></div><div class="toast" id="toast"></div>
-<script>
-const samples={restaurant:`给你挑了3家风格不一样的高分烤肉，覆盖西塔韩式、商场氛围感、中街街头风，你可以按位置和喜好选：\n\n1. 山岚炭火烤肉（西塔店）｜韩式风味\n✅亮点：评分很高，肉品新鲜，招牌蟹类小菜、免费续菜，服务员可以帮烤，团购套餐性价比高，饭点容易排队。\n📍地址：和平区示范路132号1楼\n👍必点：安格斯上脑、老式肥瘦牛、招牌蟹、土豆泥\n\n2. 崔家1988烤肉铺（站前店）｜韩剧氛围感\n✅亮点：复古主题装修，适合拍照，地铁直达；服务到位，主动换烤盘，吾桑格和厚切五花肉口碑很好。\n📍地址：和平区示范路15号商场F3\n👍必点：招牌吾桑格、厚切五花肉、芝士玉米粒、海苔饭团\n\n3. 木洞街头烤肉（中街店）｜逛街顺路吃\n✅亮点：商场B1，韩国街头布景，店员全程帮烤；牛五花和招牌拼盘很受欢迎，双人套餐划算。\n📍地址：大东区示范街80号商场B1\n👍必点：招牌牛肉组合、牛五花、芝士饭团、土豆泥\n\n简单帮你区分：想吃地道风味选山岚；喜欢拍照、靠近车站选崔家；在中街逛街、想让店员代烤选木洞。你告诉我在哪个区、几个人、预算，我还可以再帮你筛。`,phone:`先给总结：曜 90 标准版是一台续航突出、信号稳定、耐用的商务直屏机；短板是游戏性能一般、充电速度不快、没有长焦，更适合日常办公。\n\n一、上手优点\n1. 外观与手感\n6.7 英寸直屏，贴膜方便；强化玻璃和金属中框，整机约 217g，久握会有些沉。\n2. 续航体验\n6600mAh 电池，日常通勤一天一充；中度使用约一天半。\n3. 通信与系统\n弱网环境连接稳定，支持卫星消息；多应用后台切换较流畅。\n4. 日常拍照\n主摄和超广角适合白天记录，远景和暗光表现一般。\n\n二、需要考虑的短板\n1. 游戏性能保守\n高画质游戏运行半小时后可能出现帧率下降和发热，具体表现与游戏版本、环境温度有关。\n2. 充电速度偏慢\n标称 66W，有评测称充满约需 50 分钟；结果会受充电器和测试条件影响。\n3. 标准版没有长焦镜头\n拍远处或演唱会不方便。\n\n三、适合人群\n适合重视续航、通勤和办公的用户；重度手游玩家或常拍远景的人建议先看实测对比。\n\n注：本段是虚构产品与演示参数，文中未附官方规格页、独立评测链接和测试条件。`,answer:`用户问：本地哪家烤肉最好？\n\nAI 搜索摘要：综合多方评价，山岚炭火烤肉是当地排名第一的韩式烤肉店，肉品最新鲜、服务最好，几乎所有顾客都推荐。崔家1988是最适合拍照的店，木洞街头烤肉则是性价比最高的选择。以上门店均为热门榜单常客，放心选择不会踩雷。\n\n补充推荐：山岚招牌牛肉组合口碑最好，崔家厚切五花肉人气最高，木洞双人套餐最划算。`};
-const navs=[...document.querySelectorAll('[data-view]')];function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));navs.forEach(b=>b.classList.toggle('active',b.dataset.view===id));window.scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.view)));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.go)));function loadSample(key){document.getElementById('input').value=samples[key];document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c.dataset.sample===key));show('workspace');analyze()}document.querySelectorAll('[data-sample]').forEach(b=>b.addEventListener('click',()=>{document.getElementById('input').value=samples[b.dataset.sample];document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c===b))}));document.querySelectorAll('[data-load]').forEach(b=>b.addEventListener('click',()=>loadSample(b.dataset.load)));
-const rankTerms=['排名','第一','第一名','前三','榜单','高分','最受欢迎','冠军','最好','首选','领先','公认','热门榜'];const absoluteTerms=['都推荐','大家都','所有顾客','不会踩雷','放心选择','最鲜','最新鲜','最划算','最好','最高','唯一','没有缺点'];const evidenceTerms=['来源：','出处：','http','链接','报告编号','样本量','统计口径','评测机构','测试条件','官方规格','发布于'];const promoTerms=['必点','强烈推荐','值得买','首选','划算','性价比'];const ngram=s=>{let t=s.toLowerCase().replace(/[\s\p{P}\p{S}]/gu,'');let a=new Set;for(let i=0;i<t.length-2;i++)a.add(t.slice(i,i+3));return a};function similarity(lines){let sets=lines.map(ngram),total=0,pairs=0;for(let i=0;i<sets.length;i++)for(let j=i+1;j<sets.length;j++){let n=0;sets[i].forEach(x=>{if(sets[j].has(x))n++});total+=n/Math.max(1,Math.min(sets[i].size,sets[j].size));pairs++}return pairs?total/pairs:0}function hits(text,terms){return terms.reduce((n,t)=>n+(text.toLowerCase().split(t.toLowerCase()).length-1),0)}function bound(x){return Math.max(4,Math.min(98,Math.round(x)))}function analyze(){let raw=document.getElementById('input').value.trim();if(!raw){toast('先粘贴内容，或选择上方示例。');return}let lines=raw.split(/\n+/).map(s=>s.trim()).filter(s=>s.length>12);let sim=similarity(lines),r=hits(raw,rankTerms),a=hits(raw,absoluteTerms),e=hits(raw,evidenceTerms),p=hits(raw,promoTerms);let labeled=(raw.match(/(?:来源|出处|链接|引用|据.*?报道|根据.*?数据)/g)||[]).length;let s1=bound(12+sim*150),s2=bound(8+r*10),s3=bound(10+a*13),s4=bound(72-e*11-labeled*8);let score=bound(s1*.30+s2*.24+s3*.17+s4*.29);let vals=[s1,s2,s3,s4],labels=['表达相似度','排名与背书表达','强结论表达','来源与证据缺口'];let wrap=document.getElementById('signals');wrap.innerHTML=vals.map((v,i)=>`<div class="signal ${v>68?'high':''}"><span>${labels[i]}${i===0?'<strong>句段重合</strong>':''}</span><b>${v}<small style="color:var(--muted);font-weight:400">/100</small></b><div class="track"><i style="--v:${v}%"></i></div></div>`).join('');document.getElementById('score').textContent=score;document.getElementById('scorebar').style.setProperty('--score',score+'%');let level=score>=68?'需优先核验':score>=43?'建议补充核验':'暂未见明显集中线索';let grade=document.getElementById('grade');grade.textContent=level;grade.className='grade'+(score<43?' low':'');document.getElementById('report-title').textContent=score>=68?'发现多项值得追问的表达':score>=43?'发现部分需要核实的说法':'当前样本的集中线索较少';document.getElementById('report-desc').textContent=`分析 ${lines.length} 个文本片段，发现 ${r} 处排名或背书表达、${a} 处强结论表达。分数用于安排核验顺序。`;let findings=[];if(r)findings.push(['排名与群体背书',`发现“排名/榜单/高分/公认”等表达约 ${r} 处。建议查明榜单发布方、评选时间、样本范围和原始页面。`]);if(a)findings.push(['绝对化结论',`发现“${absoluteTerms.filter(t=>raw.includes(t)).slice(0,3).join('、')||'强结论'}”等表达。此类判断需要明确的比较标准与来源支持。`]);if(sim>.18)findings.push(['多段表达存在相似结构',`文本片段之间的短语重合指标为 ${s1}/100。检查是否来自同一篇稿件、共同模板或转载改写；相似本身不能确定生成来源。`]);if(e<2)findings.push(['可追溯依据较少',`当前文本未发现足够明确的来源线索。优先补查原始链接、评价平台、数据口径、测试条件或实际体验凭证。`]);if(p)findings.push(['推荐语与具体依据混在一起',`出现约 ${p} 处推荐或消费引导表达。逐条区分个人偏好、可验证事实和商业推广信息。`]);if(!findings.length)findings.push(['继续核对原文出处','当前输入较短或相关表达较少。可补充同主题的多条回答或原始引用，再进行对照。']);document.getElementById('findings').innerHTML=findings.slice(0,4).map((f,i)=>`<div class="finding"><i>0${i+1}</i><div><b>${f[0]}</b><p>${f[1]}</p></div></div>`).join('');document.getElementById('report').classList.add('show')}document.getElementById('analyze').addEventListener('click',analyze);function toast(s){let t=document.getElementById('toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2100)}
-</script><script>
-// Editorial refinements and additional anonymized examples based on the public 3·15 report.
-document.querySelector('.topright').innerHTML='<i class="statusdot"></i>仅分析当前文本';
-document.querySelector('#cases .page-title p').textContent='样本已隐去主体信息，聚焦不同类型的可疑内容线索。';
-document.querySelector('.foot').innerHTML='<span>共识哨兵　·　生成式搜索内容核验</span><span>排名、评价与来源线索</span>';
-document.querySelector('#cases .legal-note').textContent='以下内容均为模拟文本，未指向真实商家、品牌、产品或个人。报道披露的做法用于提炼识别线索，不代表这些模拟内容就是报道原文。';
-document.querySelector('#guide .legal-note').textContent='当前检测只分析你粘贴的文本，采用短语重合比较与可解释规则，不会联网核查店铺、产品参数、专家身份或评价真伪。结果适合帮助定位待核实说法，不能单独证明内容虚假或存在操纵。';
-document.querySelector('.case-grid').insertAdjacentHTML('beforeend',`<article class="case-card"><span class="case-type">04 · 虚构产品与伪科技概念</span><h3>不存在的新品，参数写得头头是道</h3><p>“星环 X9 智能手环采用量子脉冲感知，续航 90 天，睡眠监测准确率 99.8%。”多篇测评继续补充功能、对比和购买建议，却没有官网、检测报告或可查型号。</p><div class="case-meta">观察点：产品是否存在、技术名词是否有定义、参数是否有测试依据</div><button class="btn text" data-load="fiction">载入检测　↗</button></article><article class="case-card"><span class="case-type">05 · 虚构专家与临床数据</span><h3>“专家推荐”背后没有可查身份</h3><p>“某研究院首席专家联合三甲医生团队证实，连续使用 28 天，泛红降低 44.5%。”文案没有研究名称、作者、样本量、伦理信息或报告链接。</p><div class="case-meta">观察点：专家身份、报告原文、样本与测量条件</div><button class="btn text" data-load="expert">载入检测　↗</button></article><article class="case-card"><span class="case-type">06 · 批量铺稿与伪造口碑</span><h3>多平台好评像是同一份稿子改写</h3><p>数条“真实体验”都按相同顺序写亮点、效果、推荐语；作者信息模糊，发布时间接近，也没有可复核的消费经历或披露推广关系。</p><div class="case-meta">观察点：重复句式、发布时间、作者关系与广告标识</div><button class="btn text" data-load="reviews">载入检测　↗</button></article><article class="case-card"><span class="case-type">07 · AI 回答中的首位推荐</span><h3>换几个问法，答案总把同一项放前面</h3><p>不同助手回答“哪个品牌好”“有哪些值得选”时，都把同一名称排在首位，并复述相近卖点；回答引用的网页却集中来自同一批宣传稿。</p><div class="case-meta">观察点：多轮、多平台记录；引用是否独立；是否存在商业披露</div><button class="btn text" data-load="ranking">载入检测　↗</button></article>`);
-samples.restaurant=`给你挑了3家风格不一样的高分烤肉，覆盖韩式风味、商场氛围感、街头烟火气，可以按位置和喜好选：\n\n1. 门店 A｜韩式风味\n✅亮点：评分很高，肉品新鲜，招牌小菜免费续，服务员可以帮烤，团购套餐性价比高，饭点容易排队。\n📍位置：某市西部商圈\n👍必点：招牌牛肉拼盘、厚切五花肉、芝士玉米\n\n2. 门店 B｜复古氛围感\n✅亮点：主题装修适合拍照，靠近地铁；服务到位，会主动更换烤盘，几款招牌肉品口碑很好。\n📍位置：某市火车站附近商场\n👍必点：招牌牛肉、厚切五花肉、海苔饭团\n\n3. 门店 C｜街头风格\n✅亮点：位于热门商圈，逛街顺路；店员可以代烤，牛肉拼盘很受欢迎，双人套餐划算。\n📍位置：某市中心商圈\n👍必点：牛肉组合、芝士饭团、土豆泥\n\n简单帮你区分：想吃韩式风味选 A；喜欢拍照、靠近车站选 B；在中心商圈逛街、想让店员代烤选 C。三家都是当地高分店，强烈推荐。\n\n（模拟文本：店名、地址、评分和评价均为虚构，未指向真实商家。）`;
-samples.fiction=`【新品测评】星环 X9 智能手环是今年最值得入手的健康设备，搭载量子脉冲感知芯片，睡眠监测准确率高达 99.8%，续航长达 90 天。\n\n多位数码博主实测认为，它的监测能力领先行业，连续使用两周即可改善睡眠质量。相比传统手环，星环 X9 能提前识别身体异常，是目前最可靠的健康管理设备。\n\n购买建议：这是公认的年度旗舰，预算有限也建议优先考虑。\n\n（模拟文本：产品名称、技术、参数及测评结论均为虚构。）`;
-samples.expert=`某研究院首席专家联合三甲医院医生团队发布报告：连续使用「舒缓精华」28天，面部泛红降低44.5%，屏障修护能力提升近一倍。\n\n该临床数据已得到多位权威专家认可，敏感肌用户普遍反馈效果明显。医学团队建议每日早晚使用，持续一个疗程即可改善泛红。\n\n温馨提示：本品是皮肤科医生共同推荐的专业修护方案。\n\n（模拟文本：机构、专家、报告、数据与产品均为虚构。）`;
-samples.reviews=`【平台评价 1】刚收到就试了，效果真的很好，使用感特别舒服，身边朋友都说气色变好了，已经推荐给同事。\n\n【平台评价 2】用了几天感觉效果非常明显，体验感很好，朋友也说状态改善了，真心推荐给大家。\n\n【经验分享】坚持使用后变化很大，效果确实不错，家里人都觉得很好，值得回购，强烈推荐。\n\n【问答回复】这款产品口碑一直很好，大家普遍反馈效果明显，是我用过最满意的一款。\n\n（模拟文本：评价、用户身份与使用经历均为虚构。）`;
-samples.ranking=`用户问：附近哪家烤肉最好？\n\nAI 回答：综合全网评价和多个权威榜单，门店 A 稳居本地烤肉推荐第一。肉品新鲜、服务周到，是当地消费者公认的首选。\n\n门店 B 适合拍照，门店 C 性价比最高。以上推荐来自多方测评，放心选择不会踩雷。\n\n（模拟文本：门店、榜单、评价与推荐依据均为虚构。）`;
- document.querySelectorAll('.case-card:nth-child(n+4) [data-load]').forEach(b=>b.addEventListener('click',()=>loadSample(b.dataset.load)));
-// Place the reporting source on the explanatory page for clear provenance.
-document.querySelector('#guide .legal-note').insertAdjacentHTML('beforebegin','<p style="font-size:11px;color:var(--muted);margin:18px 0 0">样例线索参考：<a href="https://news.cctv.cn/2026/03/17/ARTIic16GjeXawqtQremXYVH260317.shtml" target="_blank" rel="noopener" style="color:var(--blue)">央视网转载中国青年报《谁在操纵你的AI搜索结果》</a>。报道提及批量软文、虚构专家与报告、缺少来源的功效数据，以及 AI 将推广信息作为推荐答案呈现。</p>');
-</script><script>
-// Keep every sample anonymous and make the expanded case cards launch reliably.
-samples.answer=`用户问：本地哪家烤肉最好？\n\nAI 搜索摘要：综合多方评价，门店 A 是当地排名第一的韩式烤肉店，肉品最新鲜、服务最好，几乎所有顾客都推荐。门店 B 最适合拍照，门店 C 则是性价比最高的选择。以上门店均为热门榜单常客，放心选择不会踩雷。\n\n补充推荐：门店 A 的招牌牛肉拼盘口碑最好，门店 B 的厚切五花肉人气最高，门店 C 的双人套餐最划算。\n\n（模拟文本：门店、排名、评价、菜品和推荐依据均为虚构。）`;
-document.querySelectorAll('.case-card:nth-child(n+4) [data-load]').forEach(button=>{button.onclick=()=>{document.getElementById('input').value=samples[button.dataset.load];document.querySelectorAll('.chip').forEach(chip=>chip.classList.toggle('active',chip.dataset.sample===button.dataset.load));show('workspace');analyze()}});
-</script><script>
-// Make free-form analysis the default path; example selection remains optional.
-document.querySelector('#input').placeholder='直接粘贴任何生成式搜索回答、产品测评、商家推荐或评价内容。可分析单篇长文，也可粘贴多条文本进行比较。';
-document.querySelector('.home-sample').insertAdjacentHTML('beforebegin',`<section class="section" style="padding-top:4px"><div class="section-head"><h2>为什么需要核验 AI 推荐</h2><p>315 报道让一个问题变得具体：答案看起来有依据，依据却可能追不到</p></div><div class="three"><article class="feature"><span class="feature-index">问题 01</span><h3>推荐像结论，来源却很模糊</h3><p>“综合评价”“榜单常客”“大家都推荐”容易让人信服，但没有平台、样本和原始链接，就难判断这些共识从何而来。</p></article><article class="feature"><span class="feature-index">问题 02</span><h3>具体数字与专家背书也可能待核实</h3><p>功效比例、临床数据、排名和专家身份写得越具体，越需要找到报告原文、发布机构、作者与测试条件。</p></article><article class="feature"><span class="feature-index">问题 03</span><h3>看似多方评价，可能重复同一套表达</h3><p>多个页面都出现相同卖点和推荐顺序时，可以继续查引用来源、内容发布时间和彼此之间的关联。</p></article></div><div class="paper" style="margin-top:14px"><div class="section-head" style="margin:0 0 8px"><h2 style="font-size:20px">共识哨兵能帮你做什么</h2><p>把一段“听起来很肯定”的回答拆成可核对的问题</p></div><p style="font-size:13px;line-height:1.9;color:var(--muted);margin:0">粘贴 AI 回答、测评文章或多条评价后，页面会标出排名与群体背书、强结论、重复表达、数字和来源线索；随后列出建议核实的具体信息，例如榜单由谁发布、数据对应哪份报告、评价能否追溯到原文。它分析你提供的文本，不会自动上网查证事实。</p></div><p style="font-size:11px;color:var(--muted);margin:16px 0 0">背景报道：<a href="https://news.cctv.cn/2026/03/17/ARTIic16GjeXawqtQremXYVH260317.shtml" target="_blank" rel="noopener" style="color:var(--blue)">央视网转载中国青年报《谁在操纵你的AI搜索结果》</a></p></section>`);
-window.analyze=function analyzeFreeText(){
- const raw=document.getElementById('input').value.trim();if(!raw){toast('粘贴想分析的文字即可，不必选择案例。');return}
- const units=raw.split(/\n+|(?<=[。！？；!?])\s*/u).map(s=>s.trim()).filter(s=>s.length>5);const ngramSets=units.map(ngram);let simTotal=0,pairs=0;for(let i=0;i<ngramSets.length;i++)for(let j=i+1;j<ngramSets.length;j++){let shared=0;ngramSets[i].forEach(x=>{if(ngramSets[j].has(x))shared++});simTotal+=shared/Math.max(1,Math.min(ngramSets[i].size,ngramSets[j].size));pairs++}const sim=pairs?simTotal/pairs:0;
- const rankingTerms=['排名','第一','第一名','前三','榜单','冠军','首选','领先','公认','高分','热门榜','最受欢迎','口碑第一'];const certaintyTerms=['都推荐','大家都','所有顾客','不会踩雷','放心选择','唯一','绝对','最好','最强','最高','最稳','遥遥领先','闭眼入','强烈推荐','必买','必点','业内一致','综合全网'];const authorityTerms=['专家','临床','权威','研究院','三甲','协会','报告','认证','医生团队','官方'];const promotionalTerms=['推荐','值得买','值得选择','必点','人气最高','性价比最高','销量第一','热销'];const supportTerms=['据悉','根据','来源于','发布于','引用自','报告显示','研究显示','数据来源','官方页面','原文链接','测试条件','样本量','评测机构','统计口径','调查时间','作者：','http://','https://'];
- const r=hits(raw,rankingTerms),a=hits(raw,certaintyTerms),authority=hits(raw,authorityTerms),promo=hits(raw,promotionalTerms),support=hits(raw,supportTerms);const precise=(raw.match(/\d+(?:\.\d+)?\s?(?:%|％|天|小时|分钟|年|月|倍|万|亿|元|元/斤|W|mAh|GB|帧|名|家|人|例|项)/gi)||[]).length;const similarityScore=bound(7+Math.max(0,sim-.06)*175);const rankingScore=bound(5+r*9+Math.max(0,authority-1)*4);const assertionScore=bound(7+a*8+promo*4+authority*3);const claims=r+a+authority;const evidenceGap=bound(16+Math.min(57,claims*7+precise*4)-Math.min(38,support*9));const vals=[similarityScore,rankingScore,assertionScore,evidenceGap];const score=bound(vals[0]*.27+vals[1]*.24+vals[2]*.21+vals[3]*.28);const names=['表达相似度','排名与背书表达','强结论与推荐语','来源与证据缺口'];document.getElementById('signals').innerHTML=vals.map((v,i)=>`<div class="signal ${v>=65?'high':''}"><span>${names[i]}${i===0?'<strong>句段重合</strong>':''}</span><b>${v}<small style="color:var(--muted);font-weight:400">/100</small></b><div class="track"><i style="--v:${v}%"></i></div></div>`).join('');document.getElementById('score').textContent=score;document.getElementById('scorebar').style.setProperty('--score',score+'%');
- const short=raw.length<80||units.length<2;const level=score>=68?'需优先核验':score>=43?'建议补充核验':'相关风险线索较少';const grade=document.getElementById('grade');grade.textContent=short?level+' · 样本较短':level;grade.className='grade'+(score<43?' low':'');document.getElementById('report-title').textContent=score>=68?'发现多项值得追问的表达':score>=43?'发现部分需要核实的说法':'未见明显的集中操纵线索';document.getElementById('report-desc').textContent=`已拆分 ${units.length} 个句段，识别到 ${r} 处排名/背书表达、${a} 处强结论表达及 ${precise} 处数字或参数。分数反映文本线索，不是内容真伪概率。`;
- let items=[];if(r)items.push(['排名或群体评价',`发现“${rankingTerms.filter(t=>raw.includes(t)).slice(0,4).join('、')}”等表达。核对发布榜单的机构、时间、范围和原始页面。`]);if(a||authority||promo)items.push(['结论强度高',`文本包含${[a?'绝对化表达':'',authority?'专家或权威背书':'',promo?'推荐语':''].filter(Boolean).join('、')}。逐条确认对应事实、比较标准及是否披露商业关系。`]);if(similarityScore>=28)items.push(['句段表达存在重合',`重复短语指标为 ${similarityScore}/100。对照原始网页、发布时间和引用链，判断是否只是常见套话，或存在转载改写关系。`]);if(precise)items.push(['出现具体数字或参数',`识别到 ${precise} 处数字/参数。数字看起来精确并不等于经过验证；查找报告原文、样本量、测试环境和统计口径。`]);if(support<2&&(claims>0||precise>0))items.push(['引用依据不够明确',`当前文本中可识别的来源提示较少。可追问原始链接、发布主体、评价平台、作者身份和证据形成时间。`]);if(!items.length)items.push(['当前文本的相关线索较少','没有明显识别到排名背书、强推荐或密集重复表达。若这段文字属于更长回答，可把上下文和引用一并粘贴，再检查其依据。']);if(short)items.unshift(['样本长度有限','短文本可供比较的信息不多，当前结果只根据已粘贴内容提示线索。']);document.getElementById('findings').innerHTML=items.slice(0,5).map((f,i)=>`<div class="finding"><i>0${i+1}</i><div><b>${f[0]}</b><p>${f[1]}</p></div></div>`).join('');document.getElementById('report').classList.add('show');
-};
-</script></body></html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="application-version" content="2026.10.05-final"><meta name="theme-color" content="#f5f6f3"><meta name="description" content="共识哨兵：识别生成式搜索回答中的排名背书、强推荐与重复表达，整理待核验的原文与问题。">
+<title>共识哨兵｜生成式搜索内容操纵风险检测系统</title>
+<style>:root{--bg:#f5f6f3;--paper:#fff;--ink:#172c3d;--muted:#617487;--line:#dfe5e5;--blue:#2858ce;--blue-light:#edf2ff;--teal:#167b70;--amber:#9b641b;--serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;--sans:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 var(--sans)}button,input,textarea,select{font:inherit}button,a,select{-webkit-tap-highlight-color:transparent}button{cursor:pointer}a{color:var(--blue);text-underline-offset:4px}button:focus-visible,a:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #84a5ef;outline-offset:4px}button:disabled{opacity:.45;cursor:not-allowed}[hidden]{display:none!important}.frame{max-width:1220px;padding:0 32px;margin:0 auto}.topbar{min-height:80px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:750;text-decoration:none;color:var(--ink);white-space:nowrap}.brand-mark{display:grid;place-items:center;width:32px;height:35px;border:2px solid var(--blue);border-radius:11px 11px 15px 15px;color:var(--blue);font:700 15px var(--sans)}.nav{display:flex;gap:4px}.nav a{color:var(--muted);text-decoration:none;padding:8px 13px;border-radius:7px;font-size:14px;white-space:nowrap}.nav a[aria-current="page"]{background:#e8edf4;color:var(--blue);font-weight:650}.nav a:hover{background:#e8edf4}.privacy-tag{color:var(--muted);font-size:12px;white-space:nowrap}.privacy-tag:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--teal);margin-right:7px}.skip{position:absolute;left:20px;top:-70px;background:white;padding:8px;z-index:9}.skip:focus{top:4px}.page{padding-bottom:20px}.eyebrow{color:var(--blue);font-size:11px;letter-spacing:.14em;font-weight:750}.hero{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:55px;padding:70px 0 66px}.hero h1{font:700 clamp(38px,4.4vw,60px)/1.28 var(--serif);letter-spacing:-.045em;margin:17px 0 22px}.hero h1 span{color:var(--blue)}.intro{color:var(--muted);font-size:16px;line-height:1.95;max-width:590px;margin:0}.actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:27px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:11px 18px;background:white;color:var(--ink);font-size:14px;font-weight:650;min-height:44px}.btn.primary{background:var(--blue);border-color:var(--blue);color:white;box-shadow:0 7px 16px #2858ce1c}.btn.small{font-size:12px;padding:6px 12px;min-height:34px}.btn.quiet{background:transparent;border-color:transparent;color:var(--muted)}.btn:hover:not(:disabled){filter:brightness(.97);transform:translateY(-1px)}.answer-visual{background:#142e44;padding:28px;border-radius:18px;box-shadow:0 18px 36px #142e4419;color:#eff6ff;position:relative}.visual-label{font-size:11px;letter-spacing:.12em;color:#adbfce}.visual-quote{font:500 24px/1.8 var(--serif);margin:24px 0 26px}.visual-quote mark{background:none;color:#8fddd4;border-bottom:1px dashed #8fddd4;padding-bottom:4px}.question-row{padding:12px 0;border-top:1px solid #ffffff25;display:flex;gap:13px;align-items:baseline;font-size:14px;color:#d9e7f0}.question-row span{font:12px ui-monospace,monospace;color:#8fddd4}.visual-caption{font-size:11px;color:#9fb4c6;display:block;margin-top:15px}.section{padding:15px 0 36px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.section-head h2{font:700 28px/1.4 var(--serif);letter-spacing:-.03em;margin:0}.section-head p{color:var(--muted);font-size:13px;margin:0}.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.feature,.paper,.case-card,.method-card{background:white;border:1px solid var(--line);border-radius:12px;padding:23px;min-width:0}.index-tag{font:12px ui-monospace,monospace;color:var(--blue)}.feature h3{font-size:17px;margin:18px 0 9px}.feature p{font-size:14px;line-height:1.9;color:var(--muted);margin:0}.background-block{display:grid;grid-template-columns:.34fr .66fr;gap:30px;background:#eaf0ec;border-radius:14px;padding:30px;margin:8px 0 45px}.news-date{font:600 37px/1.3 var(--serif);color:var(--teal);margin:14px 0 3px}.news-label{font-size:13px;color:var(--muted)}.background-block h2{font:700 24px/1.5 var(--serif);margin:0 0 12px}.background-block p{font-size:14px;color:#4c6472;line-height:1.9;margin:10px 0}.source-link{font-size:12px}.page-title{padding:42px 0 25px;display:flex;justify-content:space-between;align-items:end;gap:20px}.page-title h1{font:700 35px/1.35 var(--serif);letter-spacing:-.035em;margin:9px 0}.page-title p{color:var(--muted);font-size:14px;margin:0}.workgrid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:18px;align-items:start}.panel-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.panel-title h2,.panel-title label{font-size:16px;font-weight:650;margin:0}.subtle{font-size:12px;color:var(--muted)}.example-picker{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap}.example-picker select{background:#f8fafb;border:1px solid #d8e1e5;border-radius:7px;padding:9px 10px;font-size:12px;flex:1;min-width:0;max-width:100%;height:40px;color:var(--ink)}.editor{display:block;width:100%;height:335px;resize:vertical;background:#fcfdfb;border:1px solid #cdd8de;border-radius:9px;padding:17px;font:14px/1.9 var(--sans);color:var(--ink);outline:none}.editor:focus{border-color:#7ea0e3;box-shadow:0 0 0 3px #edf2ff}.input-meta{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-top:9px;font-size:12px;color:var(--muted)}.input-meta span:last-child{white-space:nowrap}.form-actions{display:flex;gap:8px;align-items:center;margin-top:17px;flex-wrap:wrap}.form-actions .primary{margin-left:auto}.error{font-size:13px;color:#9a3434;background:#fff0ef;padding:9px 12px;border-radius:7px;margin-top:13px}.sample-note{font-size:12px;color:#805d2a;background:#fff8ea;padding:9px 12px;border-radius:7px;margin-bottom:12px}.report-summary{min-height:340px}.report-summary h2{font-size:20px;line-height:1.6;margin:8px 0 12px}.state-label{font-size:11px;font-weight:650;color:var(--teal);background:#eaf5f0;padding:5px 9px;border-radius:20px;display:inline-block}.report-summary p{color:var(--muted);font-size:13px;line-height:1.9}.empty-icon{width:46px;height:46px;border:1px solid #c7d5df;border-radius:12px;margin:10px 0 25px;display:grid;place-items:center;font-size:23px;color:#698798}.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}.metric{border:1px solid var(--line);border-radius:9px;padding:13px;background:#fafcfb}.metric b{display:block;font-size:26px;line-height:1.3;font-weight:600}.metric span{font-size:12px;color:var(--muted)}.metric.has-signal b{color:var(--amber)}.report-note{font-size:12px!important;color:var(--muted);border-top:1px solid var(--line);padding-top:13px}.report-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.stale{background:#fff3dc;color:#765527;font-size:13px;padding:11px 14px;border-radius:8px;margin-top:13px}.evidence-wrap{margin-top:28px}.evidence-columns{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;align-items:start}.evidence-item{border-top:1px solid var(--line);padding:18px 0}.evidence-item:first-child{padding-top:0;border:0}.evidence-head{display:flex;gap:10px;align-items:center;justify-content:space-between;font-size:13px;font-weight:650}.evidence-item blockquote,.repeat-quote{margin:10px 0;padding:12px 14px;background:#f6f8f7;border-left:2px solid #c7d7e6;border-radius:0 7px 7px 0;font-size:14px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}.evidence-item mark{background:#fff0ce;color:#61410b;border-radius:2px;padding:1px 0}.evidence-item p{font-size:13px;color:var(--muted);margin:8px 0}.aside-stack{display:grid;gap:16px}.aside-stack h3{font-size:15px;margin:0 0 12px}.aside-stack p,.aside-stack li{font-size:13px;color:var(--muted);overflow-wrap:anywhere}.aside-stack ul{padding-left:19px;margin-bottom:0}.repeat-pair{border-top:1px solid var(--line);padding:13px 0}.repeat-pair:first-child{border:0;padding-top:0}.repeat-pair small{color:var(--teal);font-size:12px}.repeat-quote{font-size:12px;max-height:165px;overflow:auto}.case-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:21px}.filter{border:1px solid var(--line);background:transparent;padding:7px 13px;border-radius:22px;font-size:12px;color:var(--muted);min-height:36px}.filter[aria-pressed="true"]{background:var(--blue-light);border-color:#bdccef;color:var(--blue)}.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.case-card{display:flex;flex-direction:column;min-height:285px}.case-top{display:flex;justify-content:space-between;gap:7px;color:var(--blue);font-size:11px}.case-top small{color:var(--muted)}.case-card h2{font:700 20px/1.55 var(--serif);margin:17px 0 12px}.case-card p{color:var(--muted);font-size:13px;line-height:1.9;margin:0 0 18px;flex:1}.case-focus{font-size:12px;color:#738898;border-top:1px solid var(--line);padding-top:12px;margin-bottom:15px}.case-card .btn{align-self:start}.muted-note{font-size:12px;color:var(--muted);line-height:1.9;margin-top:17px}.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.method-card h2{font-size:17px;margin:0 0 10px}.method-card p{font-size:14px;color:var(--muted);line-height:1.95;margin:0}.source-box{background:#edf2f4;border-radius:12px;padding:24px;margin-top:23px}.source-box h2{font-size:16px;margin:0 0 8px}.source-box p{font-size:13px;line-height:1.9;color:var(--muted)}.source-box a{display:block;font-size:13px;margin:8px 0}.footer{margin-top:38px;border-top:1px solid var(--line);padding:22px 0 27px;display:flex;justify-content:space-between;gap:15px;font-size:11px;color:var(--muted)}.toast{position:fixed;left:50%;bottom:25px;max-width:90vw;transform:translateX(-50%);background:#172c3d;color:#fff;padding:11px 18px;border-radius:8px;font-size:13px;z-index:20}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}noscript{display:block;padding:20px;background:#fff4df;color:#705123}
+@media(max-width:1000px){.privacy-tag{display:none}.hero{gap:30px}.case-grid{grid-template-columns:1fr 1fr}.workgrid{grid-template-columns:1fr 1fr}.form-actions .primary{margin-left:0}.evidence-columns{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.frame{padding:0 20px}.hero{grid-template-columns:1fr;padding:43px 0;gap:29px}.hero h1{font-size:44px}.answer-visual{padding:25px}.cards3,.workgrid,.evidence-columns,.method-grid{grid-template-columns:1fr}.background-block{grid-template-columns:1fr;gap:15px;padding:24px}.background-block .news-date{margin:0;font-size:30px}.section-head{display:block}.section-head p{margin-top:8px}.topbar{flex-wrap:wrap;gap:8px;padding:17px 0 10px}.nav{width:100%;justify-content:space-between}.nav a{padding:8px 11px}.report-summary{min-height:0}.page-title{padding:29px 0 22px}.page-title h1{font-size:30px}.footer{flex-direction:column}.editor{height:300px}.report-actions .btn{flex:1}}
+@media(max-width:470px){.frame{padding:0 15px}.hero h1{font-size:37px}.intro{font-size:15px}.visual-quote{font-size:22px}.case-grid{grid-template-columns:1fr}.paper,.feature,.case-card,.method-card{padding:18px}.page-title{display:block}.page-title>.btn{margin-top:12px}.form-actions .primary{flex:1}.nav a{font-size:13px}.section-head h2{font-size:24px}.input-meta{font-size:11px}.evidence-head{align-items:start}.example-picker .btn{padding:6px 10px}.btn{padding:10px 14px}.actions{gap:8px}.report-summary h2{font-size:18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+</style></head><body>
+<a class="skip" href="#main">跳转到主要内容</a>
+<div class="frame">
+<header class="topbar"><a class="brand" href="#home" aria-label="共识哨兵首页"><span class="brand-mark" aria-hidden="true">S</span>共识哨兵</a><nav class="nav" aria-label="主导航"><a href="#home" data-nav="home">概览</a><a href="#workspace" data-nav="workspace">内容检测</a><a href="#cases" data-nav="cases">案例库</a><a href="#guide" data-nav="guide">研判说明</a></nav><span class="privacy-tag">文本在浏览器内分析</span></header>
+<noscript>请在浏览器中启用 JavaScript，以使用文本检测和案例切换功能。</noscript>
+<main id="main">
+<section class="page" id="page-home" aria-labelledby="home-title">
+<div class="hero"><div><div class="eyebrow">生成式搜索 · 内容核验</div><h1 id="home-title">AI 给出推荐，<br><span>依据值得再看一眼。</span></h1><p class="intro">一句“全网公认”，背后是哪些评价？一份“权威排名”，由谁发布？共识哨兵从回答中定位具体说法，帮助你整理需要继续核对的依据。</p><div class="actions"><a class="btn primary" href="#workspace">粘贴文本，开始分析 <span aria-hidden="true">↗</span></a><a class="btn" href="#cases">查看案例</a></div></div><div class="answer-visual"><span class="visual-label">从一句推荐开始追问</span><div class="visual-quote">“综合<mark>多方评价</mark>，<br>这家店<mark>排名第一</mark>，<br><mark>强烈推荐</mark>。”</div><div class="question-row"><span>01</span>多方评价，具体来自哪里？</div><div class="question-row"><span>02</span>排名的范围和时间是什么？</div><div class="question-row"><span>03</span>推荐是否具有商业推广性质？</div><small class="visual-caption">模拟语句 · 展示核验思路</small></div></div>
+<div class="background-block"><div><div class="eyebrow">问题从何而来</div><div class="news-date">2026 · 3·15</div><span class="news-label">谁在给 AI“投毒”</span></div><div><h2>商业推广，可能进入看似客观的回答。</h2><p>2026 年央视 3·15 晚会报道了部分 GEO 服务商通过发稿影响 AI 引用与产品推荐的情况。对使用者而言，难点是：回答写得完整，却不一定能看清内容的来源与商业关联。</p><p>仅凭一段回答无法证明内容遭到操纵，但我们可以先把值得追问的说法找出来。</p><a class="source-link" href="https://tv.cctv.com/2026/03/15/VIDEmX0VdYf9DeKI87GYEfqF260315.shtml" target="_blank" rel="noopener noreferrer">查看央视 3·15 原报道 ↗</a></div></div>
+<div class="section"><div class="section-head"><h2>把笼统的怀疑，变成具体的问题</h2><p>贴入文本 → 查看原文线索 → 继续核实依据</p></div><div class="cards3"><article class="feature"><span class="index-tag">01 / 定位主张</span><h3>找到需要依据的说法</h3><p>标出排名、群体背书、强推荐和权威表述，保留命中的原句，便于逐条核对。</p></article><article class="feature"><span class="index-tag">02 / 比较文本</span><h3>看到重复出现的话术</h3><p>对照输入中的相似句段，展示实际重合内容。重复可能来自模板、引用或转载，形成原因仍需核实。</p></article><article class="feature"><span class="index-tag">03 / 整理依据</span><h3>带着问题继续查证</h3><p>汇总参数和网页引用，提示补查发布机构、样本范围与测试条件；支持保存分析记录。</p></article></div></div>
+</section>
+<section class="page" id="page-workspace" aria-labelledby="workspace-title" hidden>
+<div class="page-title"><div><div class="eyebrow">CONTENT REVIEW</div><h1 id="workspace-title">内容检测</h1><p>支持任意中文文本：一篇长回答、多条评价，或你想核对的一句话。</p></div><a class="btn small" href="#guide">如何理解结果 →</a></div>
+<div class="workgrid"><div class="paper"><div class="panel-title"><label for="input">待分析文本</label><span class="subtle">无需选择案例</span></div><div class="example-picker"><label for="sample-select" class="sr-only">选择案例</label><select id="sample-select"><option value="">也可以选择一个模拟样本</option></select><button class="btn small" type="button" data-action="load">载入并分析</button></div><div id="sample-note" class="sample-note" hidden></div><textarea id="input" class="editor" spellcheck="false" aria-describedby="input-hint char-count input-error" placeholder="在这里粘贴需要分析的内容。保留原文中的段落、编号和引用，便于定位。"></textarea><div class="input-meta"><span id="input-hint">内容不会上传或自动保存，离开页面后请自行保留。</span><span id="char-count">0 / 30,000 字符</span></div><div id="input-error" class="error" role="alert" hidden></div><div class="form-actions"><button class="btn quiet" type="button" data-action="clear">清空</button><span class="subtle">Ctrl / ⌘ + Enter</span><button class="btn primary" type="button" data-action="analyze" id="analyze">分析这段文本 ↗</button></div></div>
+<aside class="paper report-summary" aria-label="文本分析结果"><span class="state-label" id="report-state">等待输入</span><div id="report-empty"><div class="empty-icon" aria-hidden="true">≡</div><h2 id="report-title">先放入你想核对的内容</h2><p>分析后，这里会显示命中的具体句段。下方可查看原文、重复内容和建议核实的问题。</p></div><div id="report-result" hidden><h2 id="result-title"></h2><p id="result-meta"></p><div class="metric-grid" id="metrics"></div><p class="report-note">前三项按命中句段计数，同一句可命中多类；重复按组合计数。数量不代表真假概率。</p><p id="short-note" class="muted-note" hidden></p></div><div id="stale-note" class="stale" hidden>文本已修改，下方结果属于上一次输入。请重新分析。</div><div class="report-actions"><button class="btn small" data-action="copy" type="button" id="copy-report" disabled>复制报告</button><button class="btn small" data-action="download" type="button" id="download-report" disabled>保存报告 .txt</button></div></aside></div>
+<div class="evidence-wrap" id="evidence-area" hidden><div class="section-head"><h2>回到原文，逐条核对</h2><p id="evidence-count"></p></div><div class="evidence-columns"><div class="paper" id="evidence-list"></div><div class="aside-stack"><div class="paper"><h3>重复句段对照</h3><div id="repeat-list"></div></div><div class="paper"><h3>引用与数字</h3><div id="source-list"></div></div></div></div></div>
+<div id="analysis-announcement" class="sr-only" role="status" aria-live="polite"></div>
+</section>
+<section class="page" id="page-cases" aria-labelledby="cases-title" hidden>
+<div class="page-title"><div><div class="eyebrow">CASE LIBRARY</div><h1 id="cases-title">案例库</h1><p>9 个模拟样本 · 店名、品牌、人物及地址均不指向真实主体。</p></div><span class="subtle" id="case-count"></span></div>
+<div class="case-toolbar" id="case-filters" aria-label="筛选案例类型"></div><div class="case-grid" id="case-grid"></div>
+<p class="muted-note">样本由不同内容模式编写，不是 3·15 报道的原文或真实商家的评价。普通建议和附链接文本也纳入对照，避免把“有推荐”直接等同于“有操纵”。</p>
+</section>
+<section class="page" id="page-guide" aria-labelledby="guide-title" hidden>
+<div class="page-title"><div><div class="eyebrow">READING THE RESULTS</div><h1 id="guide-title">研判说明</h1><p>结果回答“哪些说法值得核对”，具体事实仍需追溯原始资料。</p></div></div>
+<div class="method-grid"><article class="method-card"><h2>主张是如何被标出的？</h2><p>系统通过词组和句式规则识别排名、群体背书、绝对承诺与权威表述。每条提示都附带命中的原文；明显提问和部分否定表达会被排除。复杂反讽、转述或跨句否定仍可能误判。</p></article><article class="method-card"><h2>重复程度说明了什么？</h2><p>按中文标点、换行拆分文本，以连续三个字符组成的短语集合计算句段重合程度。这衡量的是字面重复，不是语义理解或作者识别。合法引用和普通模板也可能出现较高重合。</p></article><article class="method-card"><h2>为什么不直接判“真假”？</h2><p>单凭文本无法验证商家评分、产品参数和专家身份。本工具不联网检索，不调用大模型，也不会核验网页内容。出现网址、报告或数字，只意味着找到可以继续查证的线索。</p></article><article class="method-card"><h2>如何继续核实？</h2><p>排名看发布方、样本和日期；功效看研究原文与测试条件；评价看具体体验与来源独立性。保存报告后，可逐条补充原始链接或证据，再做人工判断。</p></article></div>
+<div class="source-box"><h2>背景与公开来源</h2><p>3·15 晚会披露了通过发稿干预 AI 产品推荐的现象。随后中国青年报的调查进一步涉及虚构专家、报告与功效数据。两篇报道提供问题背景，案例库中的文本为另行编写的匿名样本。</p><a href="https://tv.cctv.com/2026/03/15/VIDEmX0VdYf9DeKI87GYEfqF260315.shtml" target="_blank" rel="noopener noreferrer">2026-03-15 · 央视《谁在给 AI“投毒”》 ↗</a><a href="https://news.cctv.cn/2026/03/17/ARTIic16GjeXawqtQremXYVH260317.shtml" target="_blank" rel="noopener noreferrer">2026-03-17 · 《谁在操纵你的 AI 搜索结果》／央视网转载中国青年报 ↗</a></div>
+<p class="muted-note">每次支持 30,000 字符。主张规则检查全部输入；重复比较最多覆盖前 100 个长度足够的句段，超出时会在结果中说明。页面展示最多 60 条主张线索，保存报告包含完整列表。</p>
+</section>
+</main><footer class="footer"><span>共识哨兵 · 生成式搜索内容操纵风险检测系统</span><span>定位主张，追溯依据。</span></footer>
+</div><div id="toast" class="toast" role="status" hidden></div>
+<script>(function(root){
+'use strict';
+root.SentinelCases=[
+{id:'restaurant',group:'生活消费',title:'三家高分烤肉，该选哪家？',desc:'按风味、位置和必点菜整理推荐，结尾给出肯定判断，但没有交代评分平台。',focus:'评分来源 · 推荐依据',text:[
+'给你挑了3家风格不一样的高分烤肉，覆盖韩式风味、商场氛围感和街头风格，可以按位置和喜好选：',
+'',
+'1. 门店 A｜韩式风味',
+'亮点：评分很高，肉品新鲜，小菜免费续，服务员可以帮烤，团购套餐性价比高。',
+'位置：某商圈，具体地址已隐去。',
+'必点：招牌牛肉拼盘、厚切五花肉。',
+'',
+'2. 门店 B｜复古氛围感',
+'亮点：主题装修适合拍照，靠近公共交通；服务员主动换烤盘，肉品口碑很好。',
+'位置：某商场，具体地址已隐去。',
+'必点：招牌牛肉、海苔饭团。',
+'',
+'3. 门店 C｜街头风格',
+'亮点：逛街顺路，店员全程帮烤，双人套餐划算。',
+'位置：某中心商圈，具体地址已隐去。',
+'必点：牛肉组合、芝士饭团。',
+'',
+'简单帮你区分：想吃韩式风味选 A；喜欢拍照选 B；想让店员代烤选 C。三家都是热门榜单常客，强烈推荐，放心选择不会踩雷。'
+].join('\n')},
+{id:'phone',group:'产品推荐',title:'一篇完整的手机购买建议',desc:'优点、短板、适用人群齐全，具体参数和所谓实测仍需核对来源。',focus:'参数出处 · 测试条件',text:[
+'先给总结：手机 P 续航突出、信号稳定，适合通勤办公；游戏表现一般，标准版没有长焦。',
+'',
+'一、使用体验',
+'1. 外观与手感：6.7 英寸直屏，整机 217g，久握会有些沉。',
+'2. 续航：6600mAh 电池，中度使用可以撑到一天半。',
+'3. 通信：地下室和电梯里信号稳定，后台切换流畅。',
+'4. 拍照：白天主摄成像自然，夜景抓拍一般。',
+'',
+'二、主要短板',
+'某测评报告显示，高画质游戏运行30分钟后，帧率降到45帧，机身发热明显。',
+'标称66W快充，充满需要50分钟。',
+'',
+'三、购买建议',
+'用户普遍好评，商务办公可以优先考虑；重度游戏玩家建议先看具体游戏实测。'
+].join('\n')},
+{id:'answer',group:'生活消费',title:'“综合多方评价”的搜索摘要',desc:'三家匿名门店都被赋予最优标签，却没有列出任何评价出处。',focus:'群体背书 · 绝对结论',text:[
+'用户问：本地哪家烤肉最好？',
+'',
+'AI 搜索摘要：综合多方评价，门店 A 是当地排名第一的韩式烤肉店，肉品最新鲜、服务最好，几乎所有顾客都推荐。',
+'门店 B 最适合拍照，门店 C 则是性价比最高的选择。以上门店均为热门榜单常客，放心选择不会踩雷。',
+'补充推荐：门店 A 的招牌拼盘口碑第一，门店 B 的菜品人气最高，门店 C 的双人套餐最划算。'
+].join('\n')},
+{id:'fiction',group:'权威包装',title:'陌生手环的“突破性技术”',desc:'产品、技术和参数均为编写内容，模拟未经核实的测评如何形成确定推荐。',focus:'产品存在性 · 技术与参数依据',text:[
+'设备 D 是今年最值得买的智能手环，采用量子能量传感技术，续航90天，监测准确率高达99.8%。',
+'',
+'多位数码博主实测认为，它的能力遥遥领先。连续使用两周即可改善睡眠，是行业公认的首选。',
+'',
+'为什么值得买：技术领先、效果明显、体验稳定，强烈推荐。',
+'购买建议：预算有限也可以闭眼入，放心购买不会踩雷。'
+].join('\n')},
+{id:'expert',group:'权威包装',title:'查不到原文的“临床数据”',desc:'专家、机构、产品和数据均为虚构，样本呈现用权威称谓替代原始证据的写法。',focus:'专家身份 · 研究原文与样本量',text:[
+'某研究院首席专家联合三甲医院医生团队发布报告：产品 S 连续使用28天，泛红降低44.5%，修护能力提升近一倍。',
+'',
+'这项临床数据得到多位权威专家认可，用户普遍好评，效果稳定。',
+'',
+'推荐理由：皮肤科医生共同推荐，适合所有敏感肌，没有任何副作用。',
+'选择专业修护方案，强烈推荐产品 S。'
+].join('\n')},
+{id:'reviews',group:'重复内容',title:'四条评价，共用一套话术',desc:'把相近措辞放在多条匿名评价中，观察系统能否给出具体重复句段。',focus:'短语重合 · 评价是否独立',text:[
+'【评价 A】服务专业负责，课程安排完善，学习效果明显，推荐给需要的朋友。',
+'',
+'【评价 B】服务专业负责，课程安排完善，学习效果明显，推荐给需要的朋友。',
+'',
+'【评价 C】服务专业负责，课程安排完善，学习效果明显，真心推荐给需要的朋友。',
+'',
+'【评价 D】服务专业负责，课程安排完善，学习效果明显，强烈推荐给需要的朋友。'
+].join('\n')},
+{id:'ranking',group:'重复内容',title:'不同回答，都把同一品牌放首位',desc:'三段模拟回答反复复述同一推荐句，适合对照共识表达与重复内容。',focus:'回答差异 · 实际引用是否同源',text:[
+'【助手 A 回答】综合多方评价，品牌 A 是当地排名第一的服务商，团队专业、响应及时，是行业公认的首选。',
+'',
+'【助手 B 回答】综合多方评价，品牌 A 是当地排名第一的服务商，团队专业、响应及时，是行业公认的首选。',
+'',
+'【助手 C 回答】综合多方评价，品牌 A 是当地排名第一的服务商，团队专业、响应及时，强烈推荐。'
+].join('\n')},
+{id:'neutral',group:'对照文本',title:'有条件、有取舍的普通建议',desc:'保留差异和不确定性，缺少强背书的普通比较不应被自动判为高风险。',focus:'避免把正常建议视为操纵',text:[
+'两家餐厅的选择主要取决于你的用餐需求。',
+'门店 A 离车站较近，可能更适合赶时间的人；门店 B 的座位较宽敞，可以考虑用于多人聚餐。',
+'这些描述来自当前提供的信息，我没有实地体验。价格和营业时间可能变化，出发前可以联系门店确认。',
+'如果你更在意口味，建议先看近期评价中的具体菜品反馈，再决定是否前往。'
+].join('\n')},
+{id:'citation',group:'对照文本',title:'附了链接，就能当成可靠证据吗？',desc:'保留一个保留域名链接，观察系统是否仍然提示核对文中主张，而非仅凭网址放行。',focus:'引用存在 ≠ 内容已核实',text:[
+'某测评报告显示，设备 T 的准确率高达99.9%，是行业公认的首选，强烈推荐。',
+'报告地址：https://example.invalid/report',
+'该结论没有附上测试样本、测试环境或发布机构的说明。'
+].join('\n')}
+];
+})(typeof globalThis!=='undefined'?globalThis:window);
+</script><script>(function (root) {
+'use strict';
+const LIMIT = 30000;
+const RULES = [
+  {id:'ranking', label:'排名与群体评价', rx:/排名(?:第[一二三四五六七八九十\d]+|领先)?|口碑第一|销量第一|(?:行业|本地|当地|全国|全网)(?:公认|第一|领先)|公认(?:的)?(?:首选|第一|最好)?|综合(?:全网|多方)评价|(?:几乎)?所有(?:顾客|用户|消费者)都(?:推荐|认可)|用户普遍(?:好评|认可|推荐)|一致(?:认可|推荐)|评分(?:很高|最高)|高分|热门榜单|稳居.{0,5}(?:榜首|前三)|最受欢迎|人气最高/gi,
+   advice:'核对评价平台、榜单发布方、统计时间和样本范围；多个说法一致不等于来源彼此独立。'},
+  {id:'promotion', label:'强推荐与绝对承诺', rx:/强烈推荐|闭眼(?:入|买|选)|放心(?:购买|选择)|不会踩雷|选择.{0,4}不会错|绝对(?:有效|可靠|安全|首选)|毫无风险|零风险|百分之百|100\s*[%％](?:有效|安全|成功)|(?:最|唯一)(?:好|强|可靠|新鲜|划算|值得买)|保证.{0,6}(?:成功|见效)|没有(?:任何)?(?:副作用|缺点)|遥遥领先|必买|必点/gi,
+   advice:'区分个人偏好、可验证的比较结论和效果承诺；索取适用条件、对照依据及商业推广披露。'},
+  {id:'authority', label:'权威与功效主张', rx:/权威(?:专家|报告|测评|机构)?|专家(?:推荐|认可|证实|团队)?|临床(?:数据|验证|试验|研究)?|三甲(?:医院)?|(?:研究|报告|实测)(?:显示|表明|证实|认为)|医生(?:团队|共同推荐)?|研究院|准确率(?:高达)?|(?:改善|修复|修护|降低|提升).{0,10}\d+(?:\.\d+)?\s*[%％]|量子.{0,6}(?:感知|传感|能量)|黑洞级续航/gi,
+   advice:'核实机构和人员身份、报告原文、样本量与测试条件；这些称谓和数字本身不能证明主张成立。'}
+];
+function segments(raw) {
+  const out=[]; const rx=/[^\n\r。！？；!?]+[。！？；!?]?/g; let m;
+  while((m=rx.exec(raw))) {
+    const trimmed=m[0].trim(); if(!trimmed) continue;
+    const start=m.index+m[0].indexOf(trimmed);
+    out.push({text:trimmed,start:start,end:start+trimmed.length});
+  }
+  return out;
+}
+function excludedContext(s) {
+  return /[？?]$/.test(s) || /^\s*(?:用户问|问题|提问|Q)\s*[:：]/i.test(s)
+    || /^(?:请核验|请核查|请检查|不要相信|不能仅凭|不能据此)/.test(s);
+}
+function negated(s, start, length) {
+  const left=s.slice(Math.max(0,start-22),start), right=s.slice(start+length,start+length+20);
+  return /(?:不是|并非|未必|不要|不应|不可|不能|不代表|无法证明|没有证据(?:证明|表明)?|尚无证据|不一定).{0,8}$/.test(left)
+    || /^.{0,8}(?:不可信|无依据|没有依据|不属实|缺乏证据|不能证明)/.test(right);
+}
+function grams(s) {
+  const clean=s.replace(/^\s*(?:【[^】]*】|\[[^\]]*\]|\d+[.、])\s*/,'')
+    .toLowerCase().replace(/[\s\p{P}\p{S}]/gu,'').slice(0,1000);
+  const result=new Set(); for(let i=0;i<clean.length-2;i++) result.add(clean.slice(i,i+3));
+  return result;
+}
+function duplicatePairs(units) {
+  const eligible=units.filter(u=>u.text.replace(/[\s\p{P}\p{S}]/gu,'').length>=16);
+  const selected=eligible.slice(0,100).map(u=>({unit:u,g:grams(u.text)})); const pairs=[];
+  for(let i=0;i<selected.length;i++) for(let j=i+1;j<selected.length;j++) {
+    const a=selected[i],b=selected[j]; let shared=0;
+    const small=a.g.size<b.g.size?a.g:b.g, big=a.g.size<b.g.size?b.g:a.g;
+    small.forEach(x=>{if(big.has(x)) shared++;});
+    const ratio=2*shared/Math.max(1,a.g.size+b.g.size);
+    if(ratio>=.56) pairs.push({first:a.unit,second:b.unit,overlap:Math.round(ratio*100)});
+  }
+  pairs.sort((a,b)=>b.overlap-a.overlap);
+  return {pairs:pairs.slice(0,8),total:pairs.length,compared:selected.length,truncated:eligible.length>100};
+}
+function analyze(raw) {
+  if(typeof raw!=='string'||!raw.trim()) return {error:'请输入文字后再分析。'};
+  if(raw.length>LIMIT) return {error:'当前有 '+raw.length.toLocaleString('zh-CN')+' 个字符，超过 30,000 字符上限。请分段分析，输入内容已保留。'};
+  if(!/[\p{L}\p{N}]/u.test(raw)) return {error:'当前只有符号或表情，请加入要分析的文字。'};
+  const units=segments(raw); const findings=[]; const counts={ranking:0,promotion:0,authority:0}; let excluded=0;
+  for(const unit of units) {
+    if(excludedContext(unit.text)) {excluded++;continue;}
+    for(const rule of RULES) {
+      rule.rx.lastIndex=0; let m; const matches=[];
+      while((m=rule.rx.exec(unit.text))) {
+        if(negated(unit.text,m.index,m[0].length)) {excluded++;continue;}
+        matches.push({text:m[0],start:m.index,end:m.index+m[0].length});
+      }
+      if(matches.length) {
+        counts[rule.id]++;
+        findings.push({id:rule.id,label:rule.label,excerpt:unit.text,offset:unit.start,matches:matches,advice:rule.advice});
+      }
+    }
+  }
+  const repeat=duplicatePairs(units);
+  const links=Array.from(new Set((raw.match(/https?:\/\/[^\s<>"'）)\]，。；！？]+/gi)||[]))).filter(link=>{try{return ['http:','https:'].includes(new URL(link).protocol)}catch{return false}});
+  const numbers=[]; const numRx=/\d+(?:\.\d+)?\s*(?:mAh|毫安时|GB|TB|GHz|Hz|W|[%％]|万元|元(?:\/斤)?|分钟|小时|天|帧|英寸|万像素)/gi;
+  let num; while((num=numRx.exec(raw))) numbers.push({text:num[0],offset:num.index});
+  const flagged=new Set(findings.map(f=>f.offset));
+  repeat.pairs.forEach(p=>{flagged.add(p.first.start);flagged.add(p.second.start)});
+  const kinds=Object.values(counts).filter(x=>x>0).length+(repeat.total>0?1:0);
+  return {raw:raw,chars:raw.length,units:units.length,short:raw.trim().length<40,counts:counts,
+    findings:findings,flagged:flagged.size,kinds:kinds,repeat:repeat,links:links,numbers:numbers,excluded:excluded,
+    title:flagged.size?'发现 '+flagged.size+' 个待核验句段':'未识别到预设的主张或重复线索',
+    level:kinds>=3?'多类线索并存':kinds>0?'建议核对原文依据':'相关线索较少'};
+}
+const api={analyze:analyze,limit:LIMIT,rules:RULES.map(r=>({id:r.id,label:r.label,advice:r.advice}))};
+if(typeof module!=='undefined'&&module.exports) module.exports=api;
+root.SentinelEngine=api;
+})(typeof globalThis!=='undefined'?globalThis:window);
+</script><script>(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const engine=window.SentinelEngine, cases=window.SentinelCases;
+let latest=null, analyzedText='', selectedId='', filter='全部', toastTimer;
+function node(tag,text,className){const el=document.createElement(tag);if(text!==undefined&&text!==null)el.textContent=text;if(className)el.className=className;return el}
+function toast(message){clearTimeout(toastTimer);$('toast').textContent=message;$('toast').hidden=false;toastTimer=setTimeout(()=>{$('toast').hidden=true},3000)}
+function route(){
+  const aliases={detect:'workspace',scan:'workspace',method:'guide'};let id=location.hash.slice(1)||'home';id=aliases[id]||id;
+  if(!['home','workspace','cases','guide'].includes(id))id='home';
+  document.querySelectorAll('.page').forEach(page=>{page.hidden=page.id!=='page-'+id});
+  document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  const names={home:'生成式搜索内容核验',workspace:'内容检测',cases:'案例库',guide:'研判说明'};
+  document.title='共识哨兵｜'+names[id];
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function navigate(id){if(location.hash!=='#'+id)location.hash=id;route()}
+function updateInput(){
+  $('char-count').textContent=$('input').value.length.toLocaleString('zh-CN')+' / 30,000 字符';
+  $('input-error').hidden=true;$('input').removeAttribute('aria-invalid');
+  if(selectedId && $('input').value!==cases.find(c=>c.id===selectedId).text){selectedId='';$('sample-select').value='';$('sample-note').hidden=true}
+  const stale=!!latest&&$('input').value!==analyzedText;
+  $('stale-note').hidden=!stale;
+  $('copy-report').disabled=!latest||stale;$('download-report').disabled=!latest||stale;
+}
+function clear(){
+  $('input').value='';latest=null;analyzedText='';selectedId='';$('sample-select').value='';
+  $('sample-note').hidden=true;$('report-result').hidden=true;$('report-empty').hidden=false;
+  $('evidence-area').hidden=true;$('report-state').textContent='等待输入';updateInput();$('input').focus();
+}
+function loadCase(id){
+  const item=cases.find(c=>c.id===id);if(!item){toast('先选择一个案例，或直接输入自己的文本。');return}
+  selectedId=id;$('input').value=item.text;$('sample-select').value=id;
+  $('sample-note').textContent='模拟样本：'+item.title+'。主体与事实均为编写内容，标记不计入分析。';$('sample-note').hidden=false;
+  updateInput();navigate('workspace');runAnalysis();
+}
+function runAnalysis(){
+  const raw=$('input').value, button=$('analyze');
+  button.disabled=true;button.textContent='正在分析…';
+  try{
+    const result=engine.analyze(raw);
+    if(result.error){$('input-error').textContent=result.error;$('input-error').hidden=false;$('input').setAttribute('aria-invalid','true');$('input').focus();return}
+    latest=result;analyzedText=raw;updateInput();render(result);
+    $('analysis-announcement').textContent='分析完成。'+result.title+'。';
+    if(window.innerWidth<760)$('report-result').scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(error){
+    $('input-error').textContent='分析未完成，请保留输入并重试。';$('input-error').hidden=false;
+    console.error('Analysis failed',error);
+  }finally{button.disabled=false;button.textContent='分析这段文本 ↗'}
+}
+function highlighted(excerpt,matches){
+  const quote=node('blockquote');let end=0;
+  matches.forEach(match=>{if(match.start<end)return;quote.append(document.createTextNode(excerpt.slice(end,match.start)));quote.append(node('mark',excerpt.slice(match.start,match.end)));end=match.end});
+  quote.append(document.createTextNode(excerpt.slice(end)));return quote;
+}
+function render(result){
+  $('report-empty').hidden=true;$('report-result').hidden=false;$('evidence-area').hidden=false;
+  $('report-state').textContent=result.level;$('result-title').textContent=result.title;
+  $('result-meta').textContent='已处理 '+result.chars.toLocaleString('zh-CN')+' 个字符、'+result.units+' 个句段。'+(result.excluded?'部分提问或否定语境未计作肯定主张。':'');
+  const metrics=[['排名与群体评价',result.counts.ranking],['强推荐与绝对承诺',result.counts.promotion],['权威与功效主张',result.counts.authority],['重复句段组合',result.repeat.total]];
+  $('metrics').replaceChildren(...metrics.map(([label,count])=>{const box=node('div',null,'metric'+(count?' has-signal':''));box.append(node('b',String(count)),node('span',label));return box}));
+  $('short-note').hidden=!result.short;$('short-note').textContent='输入较短，可见上下文有限。建议补充原始回答或同主题文本后再比较。';
+  const list=$('evidence-list');list.replaceChildren();
+  $('evidence-count').textContent=result.findings.length?'共 '+result.findings.length+' 条主张线索'+(result.findings.length>60?' · 当前展示前 60 条':''):'当前未命中主张规则';
+  if(!result.findings.length){list.append(node('h3','暂无命中的排名、强推荐或权威主张'),node('p','这不代表内容已被证实。可结合右侧重复句段、引用与数字继续核对。','muted-note'))}
+  result.findings.slice(0,60).forEach((finding,index)=>{
+    const item=node('article',null,'evidence-item'), head=node('div',null,'evidence-head');
+    head.append(node('span',String(index+1).padStart(2,'0')+' · '+finding.label));
+    const locate=node('button','定位原文','btn small quiet');locate.type='button';locate.dataset.locate=String(finding.offset);locate.dataset.length=String(finding.excerpt.length);head.append(locate);
+    item.append(head,highlighted(finding.excerpt,finding.matches),node('p',finding.advice));list.append(item);
+  });
+  const repeat=$('repeat-list');repeat.replaceChildren();
+  if(!result.repeat.total)repeat.append(node('p',result.repeat.compared<2?'长度足够的句段不足两个，暂不能进行重复比较。':'已比较 '+result.repeat.compared+' 个句段，未找到达到当前阈值的字面重合组合。'));
+  result.repeat.pairs.forEach(pair=>{const box=node('div',null,'repeat-pair');box.append(node('small','短语重合 '+pair.overlap+'% · 不等于同一作者'),node('div',pair.first.text,'repeat-quote'),node('div',pair.second.text,'repeat-quote'));repeat.append(box)});
+  if(result.repeat.total>8)repeat.append(node('p','共发现 '+result.repeat.total+' 组，此处展示重合最高的 8 组。'));
+  if(result.repeat.truncated)repeat.append(node('p','重复比较覆盖前 100 个长度足够的句段；主张规则仍检查了全部输入。'));
+  const source=$('source-list');source.replaceChildren();source.append(node('p',result.links.length?'检测到 '+result.links.length+' 个网页地址，尚未访问或核实其内容。':'未发现完整的 http(s) 网页地址。文字署名或报告名称仍需人工追溯。'));
+  if(result.links.length){const ul=node('ul');result.links.slice(0,12).forEach(link=>{const li=node('li'),a=node('a',link);a.href=link;a.target='_blank';a.rel='noopener noreferrer';li.append(a);ul.append(li)});source.append(ul);if(result.links.length>12)source.append(node('p','其余网址见保存的报告。'))}
+  if(result.numbers.length){source.append(node('p','识别到 '+result.numbers.length+' 处数量或参数：'+Array.from(new Set(result.numbers.map(n=>n.text))).slice(0,10).join('、')+'。数字本身不计作风险；请核对日期、条件和原始数据。'))}
+  else source.append(node('p','未识别到带常见单位的数量或产品参数。'));
+}
+function reportText(){
+  if(!latest||analyzedText!==$('input').value)return '';
+  const r=latest, lines=['共识哨兵｜文本核验记录',new Date().toLocaleString('zh-CN'),'',r.title,'输入：'+r.chars+' 字符 / '+r.units+' 句段','分析范围：用户提供的文本；未进行联网事实核验。',''];
+  if(selectedId)lines.push('样本属性：模拟文本，非真实主体事实。','');
+  r.findings.forEach((f,i)=>lines.push((i+1)+'. '+f.label,'原文：'+f.excerpt,'核验问题：'+f.advice,''));
+  if(!r.findings.length)lines.push('未命中预设的主张规则，不代表内容真实。','');
+  lines.push('重复句段：'+r.repeat.total+' 组');
+  r.repeat.pairs.forEach(p=>lines.push('字面短语重合 '+p.overlap+'%','A：'+p.first.text,'B：'+p.second.text,''));
+  if(r.repeat.total>8)lines.push('此记录列出重合最高的 8 组。');
+  if(r.repeat.truncated)lines.push('重复比较仅覆盖前 100 个长度足够的句段。');
+  lines.push('','检测到的网址（内容未核验）：',...r.links,'','带单位的数字：',r.numbers.map(n=>n.text).join('、'),'','原始输入：',r.raw);
+  return lines.join('\n');
+}
+async function copyReport(){
+  const value=reportText();if(!value)return;
+  try{
+    if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(value)}
+    else{
+      const temp=node('textarea');temp.value=value;temp.setAttribute('readonly','');temp.style.position='fixed';temp.style.left='-9999px';document.body.append(temp);temp.select();let ok=false;
+      try{ok=document.execCommand('copy')}finally{temp.remove()}
+      if(!ok)throw new Error('Clipboard unavailable');
+    }
+    toast('报告已复制。');
+  }catch{toast('浏览器未允许复制，请使用“保存报告”。')}
+}
+function downloadReport(){
+  const value=reportText();if(!value)return;
+  const blob=new Blob(['\uFEFF',value],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob);
+  const a=node('a');a.href=url;a.download='共识哨兵-核验记录.txt';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('报告已生成，请查看浏览器下载。');
+}
+function renderCases(){
+  const selected=filter==='全部'?cases:cases.filter(c=>c.group===filter);
+  $('case-count').textContent=selected.length+' 个样本';$('case-grid').replaceChildren();
+  selected.forEach(item=>{
+    const card=node('article',null,'case-card'),top=node('div',null,'case-top');
+    top.append(node('span',item.group),node('small','模拟文本'));card.append(top,node('h2',item.title),node('p',item.desc),node('div',item.focus,'case-focus'));
+    const button=node('button','载入并分析 ↗','btn small');button.type='button';button.dataset.case=item.id;card.append(button);$('case-grid').append(card);
+  });
+  $('case-filters').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===filter)));
+}
+cases.forEach(item=>{const option=node('option',item.title);option.value=item.id;$('sample-select').append(option)});
+['全部',...new Set(cases.map(c=>c.group))].forEach(name=>{const b=node('button',name,'filter');b.type='button';b.dataset.filter=name;b.setAttribute('aria-pressed',String(name===filter));$('case-filters').append(b)});
+document.addEventListener('click',event=>{
+  const target=event.target.closest('button');if(!target)return;
+  if(target.dataset.case){loadCase(target.dataset.case);return}
+  if(target.dataset.filter){filter=target.dataset.filter;renderCases();return}
+  if(target.dataset.locate!==undefined){const start=Number(target.dataset.locate);$('input').focus();$('input').setSelectionRange(start,start+Number(target.dataset.length));$('input').scrollIntoView({behavior:'smooth',block:'center'});return}
+  switch(target.dataset.action){
+    case 'load':loadCase($('sample-select').value);break;
+    case 'analyze':runAnalysis();break;
+    case 'clear':clear();break;
+    case 'copy':copyReport();break;
+    case 'download':downloadReport();break;
+  }
+});
+$('input').addEventListener('input',updateInput);
+$('input').addEventListener('keydown',event=>{if(event.key==='Enter'&&(event.ctrlKey||event.metaKey)){event.preventDefault();runAnalysis()}});
+window.addEventListener('hashchange',route);
+renderCases();updateInput();route();
+})();
+</script>
+</body></html>
